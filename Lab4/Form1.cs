@@ -75,23 +75,23 @@ namespace Lab4
                 {
                     if (grid[i, j] == CellSelection.Q)
                     {
+                        //g.FillRectangle(Brushes.Red, i * block, j * block, block, block);
                         g.DrawString(queen, font, Brushes.Black, i*block, j*block);
                         mark(grid, i, j);
-                        // add red here
                     }
                     if (grid[i, j]==CellSelection.R)
                     {
                         queen = string.Empty;
                         queen = "Q";
                     }
-                    if (grid[i, j] == CellSelection.U)
+                    /*if (grid[i, j] == CellSelection.U)
                     {
                         //return;
                         g.DrawString("u", font, Brushes.Black, i * block, j * block);
                         //g.FillRectangle(Brushes.Red, i*block, j*block, 50, 50);
                         //mark(grid, i, j);
                         // add red here
-                    }
+                    }*/
 
                     // add control to paint squares red and mark as unsafe
                 }
@@ -120,9 +120,9 @@ namespace Lab4
 
             }
 
-            int d = j - 1;
-            int e = j + 1;
 
+            // diagonal top left
+            int d = j - 1;
             for (int k = i -1; k > 1; k--)
             {
                 if (d>1)
@@ -132,6 +132,8 @@ namespace Lab4
                 }
             }
 
+            // diagonal bottom left
+            int e = j + 1;
             for (int k = i - 1; k > 1; k--)
             {
                 if (e < 10)
@@ -140,7 +142,30 @@ namespace Lab4
                     e++;
                 }
             }
+
+            // diagonal bottom right
+            int f = j+ 1;
+            for (int k = i + 1; k < 10; k++)
+            {
+                if (f<10)
+                {
+                    grid[k,f] = CellSelection.U;
+                    f++;
+                }
             }
+
+            // diagonal top right
+            int g = j-1;
+            for (int k = i + 1; k < 10; k++)
+            {
+                if (g>1)
+                {
+                    grid[k,g] = CellSelection.U;
+                    g--;
+                }
+            }
+
+        }
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
