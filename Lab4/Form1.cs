@@ -342,8 +342,16 @@ namespace Lab4
             // check if move is valid
             if (e.Button == MouseButtons.Left)
             {
-                if (grid[i, j] == CellSelection.Q) return;// queen is already there
-                if (grid[i, j] == CellSelection.U) return;
+                if (grid[i, j] == CellSelection.Q) // queen is already there
+                {
+                    System.Media.SystemSounds.Beep.Play();
+                    return;
+                }
+                if (grid[i, j] == CellSelection.U)
+                {
+                    System.Media.SystemSounds.Beep.Play();
+                    return;
+                }
 
                 grid[i, j] = CellSelection.Q;
                 Qpoints[counter] = new Point(i, j);
