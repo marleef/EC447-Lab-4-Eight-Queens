@@ -76,9 +76,15 @@ namespace Lab4
                 {
                     if (grid[i, j] == CellSelection.Q)
                     {
-                        //g.FillRectangle(Brushes.Red, i * block, j * block, block, block);
+                        if (hints == true)
+                        {
+                            g.FillRectangle(Brushes.Red, i * block, j * block, block, block);
+                        }
+                        else
+                        {
+
+                        }
                         g.DrawString(queen, font, Brushes.Black, i*block, j*block);
-                       // mark(grid, i, j);
                     }
                     if (grid[i, j]==CellSelection.R)
                     {
@@ -87,10 +93,38 @@ namespace Lab4
                     }
                     if (grid[i, j] == CellSelection.U)
                     {
-                        g.DrawString("u", font, Brushes.Black, i * block, j * block);
-                        //g.FillRectangle(Brushes.Red, i*block, j*block, 50, 50);
-                        //mark(grid, i, j);
-                        // add red here
+                        if (hints == true)
+                        {
+                            g.FillRectangle(Brushes.Red, i * block, j * block, block, block);
+                            for (int k = 0; k <= dimension; k++)
+                            {
+                                g.DrawLine(Pens.Black, 100, 100 + block * k, 100 + lineLength, 100 + block * k);
+                                g.DrawLine(Pens.Black, 100 + block * k, 100, 100 + block * k, 100 + lineLength);
+                            }
+                        }
+                        if (hints == false)
+                        {
+                            if (i %2 != j % 2)
+                            {
+                                g.FillRectangle(Brushes.Black, i * block, j * block, block, block);
+
+                            }
+                            else
+                            {
+                                g.FillRectangle(Brushes.White, i * block, j * block, block, block);
+
+                            }
+                            for (int k = 0; k <= dimension; k++)
+                            {
+                                g.DrawLine(Pens.Black, 100, 100 + block * k, 100 + lineLength, 100 + block * k);
+                                g.DrawLine(Pens.Black, 100 + block * k, 100, 100 + block * k, 100 + lineLength);
+                            }
+
+
+
+                        }
+                        
+
                     }
                 }
             }
@@ -102,7 +136,7 @@ namespace Lab4
             {
                 hints = true;
             }
-            hints = false;
+            Invalidate();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -188,6 +222,7 @@ namespace Lab4
 
         }
 
+        // search and find point frequency
        private int search(Point[] Upoints, int x, int y)
         {
             int tally = 0;
@@ -203,6 +238,7 @@ namespace Lab4
         }
 
 
+        // unmark cells unique to the selected Queen
         private void unmark(CellSelection[,] grid, int i, int j)
         {
             // rows
