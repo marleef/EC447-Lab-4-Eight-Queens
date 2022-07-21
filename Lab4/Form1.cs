@@ -24,6 +24,7 @@ namespace Lab4
         private CellSelection[,] grid = new CellSelection[gridSize, gridSize];
         private int counter = 0; //  # of queens
         private bool hints = false; // hints checkbox ticked
+        private bool clear = false; // clear button clicked
         Point[] Qpoints = new Point[8];
         Point[] Upoints = new Point[400]; // set arbitrarily large
         private int Ucounter = 0;
@@ -119,9 +120,6 @@ namespace Lab4
                                 g.DrawLine(Pens.Black, 100, 100 + block * k, 100 + lineLength, 100 + block * k);
                                 g.DrawLine(Pens.Black, 100 + block * k, 100, 100 + block * k, 100 + lineLength);
                             }
-
-
-
                         }
                         
 
@@ -366,6 +364,18 @@ namespace Lab4
 
         private void button1_Click(object sender, EventArgs e)
         {
+            for (int i = 2; i<dimension+2; i++)
+            {
+                for (int j = 2; j< dimension+2; j++)
+                {
+                    grid[i, j] = CellSelection.R;
+                }
+                
+            }
+            counter = 0;
+            label1.Text = String.Concat("You have ", counter, " queens on the board.");
+            Invalidate();
+
         }
     }
 }
