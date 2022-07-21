@@ -24,15 +24,12 @@ namespace Lab4
         private CellSelection[,] grid = new CellSelection[gridSize, gridSize];
         private int counter = 0; //  # of queens
         private bool hints = false; // hints checkbox ticked
-        private bool clear = false; // clear button clicked
-        Point[] Qpoints = new Point[8];
         Point[] Upoints = new Point[400]; // set arbitrarily large
         private int Ucounter = 0;
 
         public Form1()
         {
             InitializeComponent();
-            ResizeRedraw = true; // what does this do
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "Eight Queens by Marlee Feltham";
         }
@@ -357,11 +354,14 @@ namespace Lab4
                 }
 
                 grid[i, j] = CellSelection.Q;
-                Qpoints[counter] = new Point(i, j);
                 mark(grid, i, j);
 
                 counter++;
                 label1.Text = String.Concat("You have ", counter, " queens on the board.");
+                if (counter == 8)
+                {
+                    MessageBox.Show("You did it!");
+                }
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -377,6 +377,7 @@ namespace Lab4
             Invalidate();
         }
 
+        
         private void button1_Click(object sender, EventArgs e)
         {
             for (int i = 2; i<dimension+2; i++)
