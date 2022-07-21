@@ -13,7 +13,7 @@ namespace Lab4
 {
     public partial class Form1 : Form
     {
-        private const float clientSize = 600;
+        private const float clientSize = 600; // form size
         private const float lineLength = 400; // gridline length
         private const float block = lineLength / 8; // cell width & height 
         private const float offset = 100; // position of the upper LH corner of board
@@ -22,9 +22,8 @@ namespace Lab4
         private const int gridSize = (int)(clientSize / block); // 12, divide form into squares of block size
         private enum CellSelection {N,Q, R, U}; // N = none, Q = queen, R = remove, U = unsafe
         private CellSelection[,] grid = new CellSelection[gridSize, gridSize];
-        private int counter = 0;
-        private CellSelection[,] track = new CellSelection[gridSize, gridSize];
-
+        private int counter = 0; //  # of queens
+        private bool hints = false; // hints checkbox ticked
 
         public Form1()
         {
@@ -67,7 +66,6 @@ namespace Lab4
 
             Font font = new Font("Arial", 30, FontStyle.Bold);
             string queen = "Q";
-            string n = "N";
 
             for (int i = 0; i<gridSize; ++i)
             {
@@ -77,30 +75,31 @@ namespace Lab4
                     {
                         //g.FillRectangle(Brushes.Red, i * block, j * block, block, block);
                         g.DrawString(queen, font, Brushes.Black, i*block, j*block);
-                        mark(grid, i, j);
+                       // mark(grid, i, j);
                     }
                     if (grid[i, j]==CellSelection.R)
                     {
-                        queen = string.Empty;
-                        queen = "Q";
+                        queen = string.Empty; // clear Q
+                        queen = "Q"; // reset for next click
                     }
-                    /*if (grid[i, j] == CellSelection.U)
+                    if (grid[i, j] == CellSelection.U)
                     {
-                        //return;
                         g.DrawString("u", font, Brushes.Black, i * block, j * block);
                         //g.FillRectangle(Brushes.Red, i*block, j*block, 50, 50);
                         //mark(grid, i, j);
                         // add red here
-                    }*/
-
-                    // add control to paint squares red and mark as unsafe
+                    }
                 }
             }
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (hints == false)
+            {
+                hints = true;
+            }
+            hints = false;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -108,24 +107,32 @@ namespace Lab4
 
         }
 
+        // mark cells as unsafe
         private void mark(CellSelection[,] grid, int i, int j)
         {
+            // rows
             for (int k = 2; k < dimension + 2; k++)
             {
-                if (k != i || k !=j)
+                if (k != i)
                 {
                     grid[k, j] = CellSelection.U;
-                    grid[i, k] = CellSelection.U;
                 }
 
             }
 
-
-            // diagonal top left
-            int d = j - 1;
-            for (int k = i -1; k > 1; k--)
+            // columns
+            for (int k = 2; k<dimension+2; k++)
             {
-                if (d>1)
+                if (k != j)
+                {
+                    grid[i, k] = CellSelection.U;
+                }
+            }
+
+            int d = j - 1;
+            for (int k = i - 1; k > 1; k--)
+            {
+                if (d > 1)
                 {
                     grid[k, d] = CellSelection.U;
                     d--;
@@ -144,23 +151,23 @@ namespace Lab4
             }
 
             // diagonal bottom right
-            int f = j+ 1;
+            int f = j + 1;
             for (int k = i + 1; k < 10; k++)
             {
-                if (f<10)
+                if (f < 10)
                 {
-                    grid[k,f] = CellSelection.U;
+                    grid[k, f] = CellSelection.U;
                     f++;
                 }
             }
 
             // diagonal top right
-            int g = j-1;
+            int g = j - 1;
             for (int k = i + 1; k < 10; k++)
             {
-                if (g>1)
+                if (g > 1)
                 {
-                    grid[k,g] = CellSelection.U;
+                    grid[k, g] = CellSelection.U;
                     g--;
                 }
             }
