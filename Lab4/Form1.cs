@@ -81,11 +81,15 @@ namespace Lab4
                         {
                             g.FillRectangle(Brushes.Red, i * block, j * block, block, block);
                         }
+                        if (i % 2 != j % 2)
+                        {
+                            g.DrawString(queen, font, Brushes.White, i*block, j*block);
+                        }
                         else
                         {
-
+                            g.DrawString(queen, font, Brushes.Black, i * block, j * block);
                         }
-                        g.DrawString(queen, font, Brushes.Black, i*block, j*block);
+                            
                     }
                     if (grid[i, j]==CellSelection.R)
                     {
@@ -334,8 +338,7 @@ namespace Lab4
             int i = (int)(p[0].X / block);
             int j = (int)(p[0].Y / block);
 
-            // only allow placing Queens on white checkerboard places
-            if (i % 2 != j % 2) return;
+//            if (i % 2 != j % 2) return;
             if (i < 2 || j < 2) return;
             if (i > 9 || j > 9) return;
 
