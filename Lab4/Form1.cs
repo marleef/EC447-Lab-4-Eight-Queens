@@ -107,7 +107,6 @@ namespace Lab4
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
 
         // mark cells as unsafe
@@ -135,6 +134,7 @@ namespace Lab4
                 }
             }
 
+            // diagonal top left
             int d = j - 1;
             for (int k = i - 1; k > 1; k--)
             {
@@ -188,6 +188,20 @@ namespace Lab4
 
         }
 
+       private int search(Point[] Upoints, int x, int y)
+        {
+            int tally = 0;
+            Point find = new Point(x, y);
+            for (int i = 0; i < Ucounter; i++)
+            {
+                if (Upoints[i] == find)
+                {
+                    tally++;
+                }
+            }
+            return tally;
+        }
+
 
         private void unmark(CellSelection[,] grid, int i, int j)
         {
@@ -196,9 +210,11 @@ namespace Lab4
             {
                 if (k != i)
                 {
-                    grid[k, j] = CellSelection.N;
+                    if (search(Upoints, k, j) == 1)
+                    {
+                        grid[k, j] = CellSelection.R;
+                    }
                 }
-
             }
 
             // columns
@@ -206,16 +222,23 @@ namespace Lab4
             {
                 if (k != j)
                 {
-                    grid[i, k] = CellSelection.N;
+                    if (search(Upoints, i, k) == 1)
+                    {
+                        grid[i, k] = CellSelection.R;
+                    }
                 }
             }
 
+            // diagonal top left
             int d = j - 1;
             for (int k = i - 1; k > 1; k--)
             {
                 if (d > 1)
                 {
-                    grid[k, d] = CellSelection.N;
+                    if (search(Upoints, k,d) == 1)
+                    {
+                        grid[k, d] = CellSelection.R;
+                    }
                     d--;
                 }
             }
@@ -226,7 +249,10 @@ namespace Lab4
             {
                 if (e < 10)
                 {
-                    grid[k, e] = CellSelection.N;
+                    if (search(Upoints, k, e) == 1)
+                    {
+                        grid[k, e] = CellSelection.R;
+                    }
                     e++;
                 }
             }
@@ -237,7 +263,10 @@ namespace Lab4
             {
                 if (f < 10)
                 {
-                    grid[k, f] = CellSelection.N;
+                    if (search(Upoints, k, f) == 1)
+                    {
+                        grid[k, f] = CellSelection.R;
+                    }
                     f++;
                 }
             }
@@ -248,7 +277,10 @@ namespace Lab4
             {
                 if (g > 1)
                 {
-                    grid[k, g] = CellSelection.N;
+                    if (search(Upoints, k, g) == 1)
+                    {
+                        grid[k, g] = CellSelection.R;
+                    }
                     g--;
                 }
             }
@@ -293,13 +325,11 @@ namespace Lab4
                     label1.Text = String.Concat("You have ", counter, " queens on the board.");
                 }
             }
-                Invalidate();
-            
+            Invalidate();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
         }
     }
 }
