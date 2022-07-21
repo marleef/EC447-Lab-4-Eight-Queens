@@ -121,7 +121,7 @@ namespace Lab4
                                 g.DrawLine(Pens.Black, 100 + block * k, 100, 100 + block * k, 100 + lineLength);
                             }
                         }
-                        
+
 
                     }
                 }
@@ -133,6 +133,10 @@ namespace Lab4
             if (hints == false)
             {
                 hints = true;
+            }
+            else 
+            { 
+                hints = false;
             }
             Invalidate();
         }
