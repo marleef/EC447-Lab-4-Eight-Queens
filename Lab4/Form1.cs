@@ -24,6 +24,9 @@ namespace Lab4
         private CellSelection[,] grid = new CellSelection[gridSize, gridSize];
         private int counter = 0; //  # of queens
         private bool hints = false; // hints checkbox ticked
+        Point[] Qpoints = new Point[8];
+        Point[] Upoints = new Point[400]; // set arbitrarily large
+        private int Ucounter = 0;
 
         public Form1()
         {
@@ -116,8 +119,9 @@ namespace Lab4
                 if (k != i)
                 {
                     grid[k, j] = CellSelection.U;
+                    Upoints[Ucounter] = new Point(k, j);
+                    Ucounter++;
                 }
-
             }
 
             // columns
@@ -126,6 +130,8 @@ namespace Lab4
                 if (k != j)
                 {
                     grid[i, k] = CellSelection.U;
+                    Upoints[Ucounter] = new Point(i, k);
+                    Ucounter++;
                 }
             }
 
@@ -135,6 +141,8 @@ namespace Lab4
                 if (d > 1)
                 {
                     grid[k, d] = CellSelection.U;
+                    Upoints[Ucounter] = new Point(k, d);
+                    Ucounter++;
                     d--;
                 }
             }
@@ -146,6 +154,8 @@ namespace Lab4
                 if (e < 10)
                 {
                     grid[k, e] = CellSelection.U;
+                    Upoints[Ucounter] = new Point(k, e);
+                    Ucounter++;
                     e++;
                 }
             }
@@ -157,6 +167,8 @@ namespace Lab4
                 if (f < 10)
                 {
                     grid[k, f] = CellSelection.U;
+                    Upoints[Ucounter] = new Point(k, f);
+                    Ucounter++;
                     f++;
                 }
             }
@@ -168,6 +180,75 @@ namespace Lab4
                 if (g > 1)
                 {
                     grid[k, g] = CellSelection.U;
+                    Upoints[Ucounter] = new Point(k, g);
+                    Ucounter++;
+                    g--;
+                }
+            }
+
+        }
+
+
+        private void unmark(CellSelection[,] grid, int i, int j)
+        {
+            // rows
+            for (int k = 2; k < dimension + 2; k++)
+            {
+                if (k != i)
+                {
+                    grid[k, j] = CellSelection.N;
+                }
+
+            }
+
+            // columns
+            for (int k = 2; k < dimension + 2; k++)
+            {
+                if (k != j)
+                {
+                    grid[i, k] = CellSelection.N;
+                }
+            }
+
+            int d = j - 1;
+            for (int k = i - 1; k > 1; k--)
+            {
+                if (d > 1)
+                {
+                    grid[k, d] = CellSelection.N;
+                    d--;
+                }
+            }
+
+            // diagonal bottom left
+            int e = j + 1;
+            for (int k = i - 1; k > 1; k--)
+            {
+                if (e < 10)
+                {
+                    grid[k, e] = CellSelection.N;
+                    e++;
+                }
+            }
+
+            // diagonal bottom right
+            int f = j + 1;
+            for (int k = i + 1; k < 10; k++)
+            {
+                if (f < 10)
+                {
+                    grid[k, f] = CellSelection.N;
+                    f++;
+                }
+            }
+
+            // diagonal top right
+            int g = j - 1;
+            for (int k = i + 1; k < 10; k++)
+            {
+                if (g > 1)
+                {
+                    grid[k, g] = CellSelection.N;
                     g--;
                 }
             }
@@ -195,23 +276,25 @@ namespace Lab4
                 if (grid[i, j] == CellSelection.U) return;
 
                 grid[i, j] = CellSelection.Q;
+                Qpoints[counter] = new Point(i, j);
                 mark(grid, i, j);
 
                 counter++;
                 label1.Text = String.Concat("You have ", counter, " queens on the board.");
-
-                if (e.Button == MouseButtons.Right)
-                {
-                    if (grid[i, j] == CellSelection.Q)
-                    {
-                        grid[i, j] = CellSelection.R;
-                        if (counter < 0) return;
-                        counter--;
-                        label1.Text = String.Concat("You have ", counter, " queens on the board.");
-                    }
-                }
-                Invalidate();
             }
+            if (e.Button == MouseButtons.Right)
+            {
+                if (grid[i, j] == CellSelection.Q)
+                {
+                    grid[i, j] = CellSelection.R;
+                    unmark(grid, i, j);
+                    if (counter < 0) return;
+                    counter--;
+                    label1.Text = String.Concat("You have ", counter, " queens on the board.");
+                }
+            }
+                Invalidate();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
